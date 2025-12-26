@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刷题大师 - 在线题库系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36CFC9',
+                        success: '#52C41A',
+                        warning: '#FAAD14',
+                        danger: '#FF4D4F',
+                        info: '#1890FF',
+                        dark: '#1F2937',
+                        light: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #165DFF 0%, #36CFC9 100%);
+            }
+            .glass-effect {
+                backdrop-filter: blur(10px);
+                background: rgba(255, 255, 255, 0.9);
+            }
+        }
+    </style>
+    <style>
+        /* 关键：设置页面最小高度为100vh，并使用flex布局 */
+        html, body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 主内容区自动占满剩余空间 */
+        .main-content {
+            flex: 1;
+        }
+
+        .question-card {
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(22, 93, 255, 0.15);
+        }
+
+        .type-badge {
+            transition: all 0.3s ease;
+        }
+
+        .type-badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* 确保页脚不会被内容覆盖 */
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- 导航栏 -->
+    <nav class="glass-effect border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fa fa-graduation-cap text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-dark">刷题大师</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        <i class="fa fa-user mr-2"></i>登录
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区：添加 main-content 类使其自动占满剩余空间 -->
+    <div class="main-content">
+        <!-- 英雄区域 -->
+        <section class="gradient-bg text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-4">
+                    提升学习效率，轻松应对考试
+                </h2>
+                <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-6 max-w-3xl mx-auto">
+                    海量题库，智能刷题，详细解析，助你快速掌握知识点
+                </p>
+            </div>
+        </section>
+
+        <!-- 题库列表 -->
+        <section class="py-8 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- 搜索和筛选 -->
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <input type="text"
+                                   id="search-input"
+                                   placeholder="搜索题库..."
+                                   class="w-full px-4 py-3 pl-10 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary">
+                            <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 题库卡片网格 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="bank-list">
+                    <!-- 题库卡片将通过JavaScript动态生成 -->
+                </div>
+
+                <!-- 加载中状态 -->
+                <div class="text-center py-12" id="loading">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
+                    <p class="text-gray-600">加载题库中...</p>
+                </div>
+
+                <!-- 空状态 -->
+                <div class="text-center py-12 hidden" id="empty-state">
+                    <div class="w-20 h-20 mx-auto mb-4 text-gray-400">
+                        <i class="fa fa-folder-open text-5xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">暂无题库</h4>
+                    <p class="text-gray-500 mb-4">请添加题库后再进行刷题</p>
+                    <button class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        <i class="fa fa-plus mr-2"></i>添加题库
+                    </button>
+                </div>
+
+                <!-- 错误状态 -->
+                <div class="text-center py-12 hidden" id="error-state">
+                    <div class="w-20 h-20 mx-auto mb-4 text-danger">
+                        <i class="fa fa-exclamation-triangle text-5xl"></i>
+                    </div>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">加载失败</h4>
+                    <p class="text-gray-500 mb-4">无法连接到服务器，请检查网络连接</p>
+                    <button id="retry-btn" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重试
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚：会自动固定在底部 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <p>&copy; 2025 刷题大师. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 题库卡片模板 -->
+    <template id="bank-card-template">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden question-card">
+            <div class="p-5">
+                <div class="flex justify-between items-start mb-3">
+                    <h4 class="text-lg font-semibold text-dark bank-name"></h4>
+                    <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium bank-count"></span>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-4 bank-types"></div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-500 text-sm">最后更新: <span class="bank-date"></span></span>
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors start-practice">
+                        <i class="fa fa-play mr-2"></i>开始练习
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // 后端API地址
+        const API_BASE_URL = 'http://127.0.0.1:5000';
+
+        // 题型映射
+        const typeMap = {
+            single: { name: '单选题', color: 'bg-blue-100 text-blue-800' },
+            multiple: { name: '多选题', color: 'bg-green-100 text-green-800' },
+            judge: { name: '判断题', color: 'bg-yellow-100 text-yellow-800' },
+            fill: { name: '填空题', color: 'bg-purple-100 text-purple-800' },
+            essay: { name: '简答题', color: 'bg-red-100 text-red-800' }
+        };
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBankList();
+
+            // 绑定事件
+            document.getElementById('retry-btn').addEventListener('click', loadBankList);
+            document.getElementById('search-input').addEventListener('input', debounce(filterBanks, 300));
+            // 修复：原代码中 #type-filter 元素不存在，注释掉相关绑定
+            // document.getElementById('type-filter').addEventListener('change', filterBanks);
+        });
+
+        // 防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // 加载题库列表
+        async function loadBankList() {
+            const bankList = document.getElementById('bank-list');
+            const loading = document.getElementById('loading');
+            const emptyState = document.getElementById('empty-state');
+            const errorState = document.getElementById('error-state');
+
+            // 显示加载状态
+            loading.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            errorState.classList.add('hidden');
+            bankList.innerHTML = '';
+
+            try {
+                // 调用后端API获取题库列表
+                const response = await fetch(`${API_BASE_URL}/api/banks`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.code === 200 && data.data && data.data.length > 0) {
+                    loading.classList.add('hidden');
+
+                    // 添加题库卡片
+                    data.data.forEach(bank => {
+                        const card = createBankCard(bank);
+                        bankList.appendChild(card);
+                    });
+                } else {
+                    loading.classList.add('hidden');
+                    emptyState.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('加载题库失败:', error);
+                loading.classList.add('hidden');
+                errorState.classList.remove('hidden');
+            }
+        }
+
+        function createBankCard(bank) {
+            const template = document.getElementById('bank-card-template');
+            const card = template.content.cloneNode(true);
+
+            // 设置卡片内容
+            card.querySelector('.bank-name').textContent = bank.name;
+            card.querySelector('.bank-count').textContent = `${bank.count}题`;
+            card.querySelector('.bank-date').textContent = bank.last_updated || '未知';
+
+            // 添加题型标签
+            const typesContainer = card.querySelector('.bank-types');
+            if (bank.type_count) {
+                Object.entries(bank.type_count).forEach(([type, count]) => {
+                    const typeInfo = typeMap[type] || {name: type, color: 'bg-gray-100 text-gray-800'};
+                    const badge = document.createElement('span');
+                    badge.className = `px-2 py-1 rounded-full text-xs font-medium type-badge ${typeInfo.color}`;
+                    badge.textContent = `${typeInfo.name}(${count})`;
+                    typesContainer.appendChild(badge);
+                });
+            }
+
+            // 添加点击事件
+            const practiceBtn = card.querySelector('.start-practice');
+            practiceBtn.addEventListener('click', () => {
+                // 修改为使用Flask路由
+                window.location.href = `/practice?bank_id=${bank.id}&bank_name=${encodeURIComponent(bank.name)}`;
+            });
+
+            return card;
+        }
+
+        // 筛选题库
+        function filterBanks() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            // 修复：原代码中 #type-filter 元素不存在，注释掉相关逻辑
+            // const typeFilter = document.getElementById('type-filter').value;
+            const bankCards = document.querySelectorAll('.question-card');
+
+            bankCards.forEach(card => {
+                const bankName = card.querySelector('.bank-name').textContent.toLowerCase();
+                const bankTypes = card.querySelector('.bank-types').textContent.toLowerCase();
+
+                const matchesSearch = bankName.includes(searchTerm);
+                // 修复：原代码中 #type-filter 元素不存在，简化匹配逻辑
+                // const matchesType = !typeFilter || bankTypes.includes(typeFilter);
+
+                if (matchesSearch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

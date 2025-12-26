@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 - 404</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/v4-shims.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#8B5CF6',
+                        danger: '#EF4444',
+                        warning: '#F59E0B',
+                        info: '#06B6D4',
+                        dark: '#1F2937',
+                        light: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .btn-gradient {
+                background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            }
+            .btn-gradient:hover {
+                background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            }
+            .floating {
+                animation: floating 3s ease-in-out infinite;
+            }
+            @keyframes floating {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+                100% { transform: translateY(0px); }
+            }
+            .pulse {
+                animation: pulse 2s ease-in-out infinite;
+            }
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fa fa-graduation-cap text-primary text-2xl mr-3"></i>
+                        <span class="text-xl font-bold text-gray-800">智能刷题平台</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="window.location.href='index.html'" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        <i class="fa fa-home mr-2"></i>返回首页
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 404内容区域 -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="mb-8 floating">
+                <i class="fa fa-frown-o text-9xl text-gray-300"></i>
+            </div>
+
+            <h1 class="text-6xl font-bold text-gray-800 mb-6 pulse">404</h1>
+
+            <h2 class="text-3xl font-semibold text-gray-800 mb-4">页面未找到</h2>
+
+            <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                抱歉，您访问的页面不存在或已被删除。可能是链接错误或页面已移动。
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <button onclick="window.location.href='index.html'" class="btn-gradient text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                    <i class="fa fa-home mr-2"></i>返回首页
+                </button>
+                <button onclick="history.back()" class="px-8 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                    <i class="fa fa-arrow-left mr-2"></i>返回上一页
+                </button>
+            </div>
+
+            <!-- 错误可能原因 -->
+            <div class="bg-white rounded-xl shadow-md p-6 max-w-2xl mx-auto">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">可能的原因：</h3>
+                <ul class="text-left space-y-2 text-gray-600">
+                    <li class="flex items-start">
+                        <i class="fa fa-times-circle text-red-500 mr-2 mt-1"></i>
+                        <span>链接输入错误或已过期</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-times-circle text-red-500 mr-2 mt-1"></i>
+                        <span>页面已被删除或移动到其他位置</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-times-circle text-red-500 mr-2 mt-1"></i>
+                        <span>题库不存在或已被管理员删除</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-times-circle text-red-500 mr-2 mt-1"></i>
+                        <span>服务器暂时出现问题</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 推荐内容 -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+                推荐题库
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 推荐题库卡片 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Python基础题库</h3>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                                32题
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">单选题 15</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">多选题 8</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">判断题 5</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">填空题 4</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            包含Python基础语法、数据类型、控制结构等知识点的练习题
+                        </p>
+                        <button onclick="window.location.href='practice.html'" class="w-full btn-gradient text-white py-2 rounded-lg text-sm hover:shadow-lg transition-all">
+                            开始练习
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Web前端开发</h3>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                                45题
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">单选题 20</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">多选题 12</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">判断题 8</span>
+                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">简答题 5</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            HTML、CSS、JavaScript等前端技术的综合练习题
+                        </p>
+                        <button onclick="window.location.href='practice.html'" class="w-full btn-gradient text-white py-2 rounded-lg text-sm hover:shadow-lg transition-all">
+                            开始练习
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">数据库原理</h3>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                                28题
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">单选题 12</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">多选题 7</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">判断题 6</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">填空题 3</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            SQL语句、数据库设计、事务处理等数据库相关知识
+                        </p>
+                        <button onclick="window.location.href='practice.html'" class="w-full btn-gradient text-white py-2 rounded-lg text-sm hover:shadow-lg transition-all">
+                            开始练习
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fa fa-graduation-cap text-primary text-2xl mr-3"></i>
+                        <span class="text-xl font-bold">智能刷题平台</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        提供优质的学习资源和智能练习体验，帮助用户高效掌握知识。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-weibo text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-wechat text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fa fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">功能导航</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">题库中心</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">学习记录</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">个人中心</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">帮助支持</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">使用指南</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">常见问题</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">意见反馈</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fa fa-envelope mr-2"></i>contact@example.com</li>
+                        <li><i class="fa fa-phone mr-2"></i>400-123-4567</li>
+                        <li><i class="fa fa-map-marker mr-2"></i>北京市海淀区</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 智能刷题平台. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 添加页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加一些动画效果
+            const elements = document.querySelectorAll('.card-hover');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>
