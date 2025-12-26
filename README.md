@@ -1,5 +1,12 @@
+## 项目启动
+pip install -r requirements.txt
+python app.py
+
+## 项目访问
+首页地址: http://127.0.0.1:5000/
+
 ## 题库设置
-在data\XXXXX.json中设置题目内容，文件名与index.json中对应即可，可参考默认案例。
+在data\XXXXX.json中设置题目内容，可参考默认案例。
 ```json
 {
     "name":"题库名称",
